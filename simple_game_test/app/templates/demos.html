@@ -1,0 +1,82 @@
+{% extends "base.html" %} {% block content %}
+<h1>Demonstrations - Round {{round+1}}</h1>
+
+<p><b>Instructions: </b>Here is a new rule! The robot will play a few cards to give you a head start in learning the rule.</p>
+
+<p>Try to find a pattern in which card belongs in which bin! When you are ready to see the next card, click the Next Card button.</p>
+
+<div class="progress" style="height: 50px">
+    <div class="progress-bar" role="progressbar" style="width: {{ num_completed_demos/num_demos*100 }}%;" aria-valuenow="{{num_completed_demos}}" aria-valuemin="0" aria-valuemax="{{num_demos}}">
+        {{num_completed_demos}} out of {{num_demos}}</div>
+</div>
+
+<div class="row">
+    <div id="staging" class="staging col-2">
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-3">
+        <div id="bin0" class="bin col">
+            <div class="left-bin col-6">
+                {% if correct_bin == 0 %}
+                <div class="card obj current-card">
+                    <img class="card-img-top" src="../static/cards/{{card}}.png">
+                </div>
+                {% endif %} {% for card_id in range(previous_cards[0]|length) %} {% if card_id % 2 == 1 %}
+                <div class="card obj prev-card">
+                    <img class="card-img-top" src="../static/cards/{{previous_cards[0][card_id]}}.png">
+                </div>
+                {% endif %} {% endfor %}
+            </div>
+            <div class="right-bin col-6">
+                {% for card_id in range(previous_cards[0]|length) %} {% if card_id % 2 == 0 %}
+                <div class="card obj prev-card">
+                    <img class="card-img-top" src="../static/cards/{{previous_cards[0][card_id]}}.png">
+                </div>
+                {% endif %} {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="text-center">
+            <p>This video has no sound</p>
+        </div>
+        <video class="robot-video z-depth-1" autoplay loop controls muted>
+            <source src="../static/robot/{{ vid_name }}.mp4" type="video/mp4" />
+        </video>
+    </div>
+    <div class="col-3">
+        <div id="bin1" class="bin col">
+            <div class="left-bin col-6">
+                {% if correct_bin == 1 %}
+                <div class="card obj current-card">
+                    <img class="card-img-top" src="../static/cards/{{card}}.png">
+                </div>
+                {% endif %} {% for card_id in range(previous_cards[1]|length) %} {% if card_id % 2 == 1 %}
+                <div class="card obj prev-card">
+                    <img class="card-img-top" src="../static/cards/{{previous_cards[1][card_id]}}.png">
+                </div>
+                {% endif %} {% endfor %}
+            </div>
+            <div class="right-bin col-6">
+                {% for card_id in range(previous_cards[1]|length) %} {% if card_id % 2 == 0 %}
+                <div class="card obj prev-card">
+                    <img class="card-img-top" src="../static/cards/{{previous_cards[1][card_id]}}.png">
+                </div>
+                {% endif %} {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div id="next-demo" class="col-5">
+        <form action="" method="post">
+            {{ form.hidden_tag() }} {{ form.submit_demo(class="btn btn-dark btn-lg w-100") }}
+        </form>
+    </div>
+</div>
+
+<script src="../static/demos_script.js"></script>
+{% endblock %}

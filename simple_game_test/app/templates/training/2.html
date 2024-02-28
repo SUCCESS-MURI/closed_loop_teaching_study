@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+    <style>
+        .container {
+            margin: 0 auto;
+            text-align: center;
+            width: 80%; /* set the width of the container */
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        p {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Features of Cards</h1>
+        <p>The cards have four different classes of features: number, fill, color, and shape. <br><br> Each of these has three possible values, as shown below. </p>
+        <img src="../static/training/2.png" alt="Image" />
+        <br><br><br>
+    <button onclick="location.href='/training/3'">Next Page</button>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block content %}
+<h1>Survey - Round {{round}}</h1>
+
+<p><b></b></p>
+
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <h3></b>Please answer the following questions about the game you <i>just</i> played, and not about any previous rounds.</p></h3>
+    <div style="padding: 1em; margin: 1em;">
+        <h4>I found teaching this robot to be... </h4>
+        {% for subfield in form.frustration %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.frustration.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <div style="padding: 1em; margin: 1em;">
+        <h4>I used the robot's feedback when deciding what card to place next.</h4>
+        {% for subfield in form.utility_of_feedback %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} 
+        {% for error in form.utility_of_feedback.errors %} 
+        <span style="color: red;">{{ error }}</span> 
+        {% endfor %}
+    </div>
+
+    <div style="padding: 1em; margin: 1em;">
+        <h4>I found it easy to teach this rule.</h4>
+        {% for subfield in form.ease_of_teaching %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.ease_of_teaching.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <h3>(Optional) Please provide us with some comments about your experience playing this round</h3>
+
+    <div style="padding: 1em; margin: 1em;">
+        <h4>How was your experience teaching this rule to the robot?</h4>
+        {{ form.opt_text(cols="70", rows="4") }} 
+    </div>
+
+    {{ form.submit_survey(class="btn btn-primary btn-lg w-100") }}
+</form>
+
+
+{% endblock %}

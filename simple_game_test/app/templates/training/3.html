@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+    <style>
+        .container {
+            margin: 0 auto;
+            text-align: center;
+            width: 80%; /* set the width of the container */
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        p {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rule Structure</h1>
+        <p>The features on the previous page determine which bin the card belongs in based on a rule. This rule will be provided to you in a blue box below the robot. The robot does not know the rule. <br><br>
+        
+        Rules have a standardized format. There will be a primary rule, for example cards are sorted by number such that: all "Two" cards go into Bin 1, "One" cards go into Bin 2, and "Three" cards go into Bin 3. And, there will be an exception. In this case, "Diamond" cards also go in Bin 1, regardless of their number. </p>
+        <img src="../static/training/3.png" alt="Image" />
+        <br><br><br>
+        <button onclick="location.href='/training/4'">Next Page</button>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}

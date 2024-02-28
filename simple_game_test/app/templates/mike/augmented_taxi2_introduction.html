@@ -1,0 +1,210 @@
+{% extends "base.html" %}{% block content %}
+<link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+
+<div id="container-instructions" class="text-center">
+    <hr />
+
+        <h2>Welcome to a new game!</h2> <br>
+        <h3> Here are a few configurations that you may see in this section.</h3>
+
+        <img src = 'static/img/augmented_taxi.png' width="250" height=auto/>
+        <img src = 'static/img/augmented_taxi2_2.png' width="250" height=auto hspace="20" vspace="20"/>
+        <img src = 'static/img/augmented_taxi2_3.png' width="250" height=auto/>
+        <br>
+        <br>
+
+    <h3>In this game, the <b>task</b> is the following:</h3>
+
+        <table class="center">
+          <tr>
+            <th>Task</th>
+            <th>Sample sequence</th>
+          </tr>
+          <tr>
+              <!-- cl, pl, open, wtcl -->
+            <td>Dropping off the circle at the grey square</td>
+              <!-- wt -->
+              <!--<td>Dropping off the circle at the grey square (after having initially grabbed it)</td>-->
+            <td><img src = 'static/img/augmented_taxi_dropoff1.png' width="75" height=auto />
+            <img src = 'static/img/arrow.png' width="30" height=auto />
+            <img src = 'static/img/augmented_taxi_dropoff2.png' width="75" height=auto />
+            </td>
+          </tr>
+        </table>
+
+        <br>
+        <br>
+    <!-- cl, pl, open -->
+        <h3>In this game, the following actions affect Chip's energy differently:</h3>
+
+    <!-- wt, wtcl -->
+    <!--<h3>Chip wants you to know that the following actions affect Chip's energy accordingly in this game:</h3>-->
+
+    <!-- cl, pl, open, wtcl -->
+    <h4><b><u>Please take time to understand these actions</u></b> as they will influence your ability to understand Chip's demonstrations.</h4>
+    <!-- wt -->
+    <!--<h4><b><u>Please take time to understand these actions</u></b> as they determine the optimal game strategy.</h4>-->
+
+        <table class="center">
+          <tr>
+            <th>Actions</th>
+            <th>Sample sequence(s)</th>
+              <th>Energy change</th>
+          </tr>
+          <tr>
+              <td>Moving <u>out of</u> a yellow square (e.g. into yellow <u>or</u> white square)</td>
+            <td>
+                <img src = 'static/img/augmented_taxi2_toll1.png' width=auto height="125" />
+                <img src = 'static/img/arrow.png' width="30" height=auto />
+                <img src = 'static/img/augmented_taxi2_toll2.png' width=auto height="125" />
+            </td>
+              <!-- cl, pl, and open -->
+              <td><b>???</b></td>
+              <!-- wtcl and wt -->
+              <!-- <td><b>- 3%</b></td>-->
+          </tr>
+          <tr>
+            <td>Moving through the green hexagon</td>
+            <td><img src = 'static/img/augmented_taxi2_battery1.png' width="75" height=auto />
+            <img src = 'static/img/arrow.png' width="30" height=auto />
+            <img src = 'static/img/augmented_taxi2_battery2.png' width="75" height=auto />
+            <img src = 'static/img/arrow.png' width="30" height=auto />
+            <img src = 'static/img/augmented_taxi2_battery3.png' width="75" height=auto />
+            </td>
+              <!-- cl, pl, and open -->
+              <td><b>???</b></td>
+              <!-- wtcl and wt -->
+              <!-- <td><b>+ 3.5%</b></td>-->
+          </tr>
+          <tr>
+            <td>Any action that you take (e.g. moving right, grabbing, etc)</td>
+            <td>
+                <img src = 'static/img/right1.png' width="150" height=auto />
+            <img src = 'static/img/arrow.png' width="30" height=auto />
+            <img src = 'static/img/right2.png' width="150" height=auto />
+            </td>
+              <!-- cl, pl, and open -->
+              <td><b>???</b></td>
+              <!-- wtcl and wt -->
+              <!--<td><b>- 1%</b></td>-->
+          </tr>
+        </table>
+
+
+    <br>
+    <br>
+
+    <!-- only for wtcl and wt -->
+{#    #}
+{#      <!-- Add the canvas for the chart -->#}
+{#    <div class="chart-container">#}
+{#        <canvas id="myChart" style="width:100%"></canvas>#}
+{#    </div>#}
+{##}
+{#    <!-- Add this CSS to center the chart -->#}
+{#    <style>#}
+{#    .chart-container {#}
+{#        display: flex;#}
+{#        justify-content: center;#}
+{#        align-items: center;#}
+{#        height: 70vh; /* Adjust as needed */#}
+{#    }#}
+{#    </style>#}
+{##}
+{#    <!-- Add the Chart.js library -->#}
+{#    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
+{##}
+{#    <!-- Add the JavaScript to create the chart -->#}
+{#    <script>#}
+{#        const data = {#}
+{#            labels: ['Moving out of a yellow square', 'Moving through the green hexagon', 'Any action that you take'],#}
+{#            datasets: [{#}
+{#                label: 'Energy Change (%)',#}
+{#                data: [-3, 3.5, -1],#}
+{#                backgroundColor: 'rgba(75, 192, 192, 0.2)',#}
+{#                borderColor: 'rgba(75, 192, 192, 1)',#}
+{#                borderWidth: 1#}
+{#            }]#}
+{#        };#}
+{##}
+{#        const config = {#}
+{#            type: 'bar',#}
+{#            data: data,#}
+{#            options: {#}
+{#                indexAxis: 'y',#}
+{#                elements: {#}
+{#                    bar: {#}
+{#                        borderWidth: 2,#}
+{#                    }#}
+{#                },#}
+{#                responsive: true,#}
+{#                plugins: {#}
+{#                    legend: {#}
+{#                        position: 'right',#}
+{#                                            labels: {#}
+{#                        font: {#}
+{#                            size: 18 // Increase font size for legend#}
+{#                        }#}
+{#                    }#}
+{#                    },#}
+{#                    title: {#}
+{#                        display: true,#}
+{#                        text: 'Energy Change for Actions (same as those above)',#}
+{#                        font: {#}
+{#                        size: 22 // Increase font size for title#}
+{#                        }#}
+{#                    }#}
+{#                },#}
+{#                scales: {#}
+{#                y: {#}
+{#                    ticks: {#}
+{#                        font: {#}
+{#                            size: 16 // Increase font size for y-axis labels#}
+{#                        }#}
+{#                    }#}
+{#                },#}
+{#                x: {#}
+{#                    ticks: {#}
+{#                        font: {#}
+{#                            size: 16 // Increase font size for x-axis labels#}
+{#                        }#}
+{#                    }#}
+{#                }#}
+{#            }#}
+{#            },#}
+{#        };#}
+{##}
+{#        var myChart = new Chart(#}
+{#            document.getElementById('myChart'),#}
+{#            config#}
+{#        );#}
+{#    </script>#}
+
+    <!-- cl, pl, open, wtcl -->
+        <br><br>
+    <h3>Chip will now provide a few demonstrations of the best strategy for this game.</h3>-
+
+    <hr />
+
+
+    <div class="instructionsnav">
+      <div class="row justify-content-between">
+          <div class="col-xs-3">
+{#            <button type="button" id="prev" onclick="window.location.href='/post_practice'" value="previous" class="btn btn-primary btn-lg continue">#}
+{#                  Previous <span class="glyphicon glyphicon-arrow-left"></span>#}
+{#                  </button>#}
+          </div>
+          <div class="col-xs-3">
+            <button type="button" id="next"
+            onclick="window.location.href='/at'" value="next" class="btn btn-primary btn-lg continue">
+            Next <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
+          </div>
+      </div>
+  </div>
+
+</div>
+
+<script>
+</script>
+{% endblock %}

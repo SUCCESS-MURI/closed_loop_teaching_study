@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+    <style>
+        .container {
+            margin: 0 auto;
+            text-align: center;
+            width: 80%; /* set the width of the container */
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        p {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Study Format</h1>
+        <p>{{study_format}}<br><br>
+
+        When given feedback, you will be asked to evaluate the feedback you are getting for <b>how helpful it is to you in understanding the robot's learning process and influencing your teaching (e.g. helping you choose cards to play)</b>. <br><br>
+
+        Between each game, you will complete a short survey about your experience. After you complete all games, we will ask for some final information. {{compensation_info}}</p>
+        <img src="../static/training/5.png" alt="Image" />
+        <br><br><br>
+        <button onclick="location.href='/training/6'">Next Page</button>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}

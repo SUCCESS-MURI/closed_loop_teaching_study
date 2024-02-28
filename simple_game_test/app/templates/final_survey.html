@@ -1,0 +1,53 @@
+{% extends "base.html" %} {% block content %}
+<h1>Final Survey</h1>
+
+<p><b></b></p>
+
+<form action="" method="post">
+    <h3></b>Almost there! You must complete and submit this form in order for your participation to be eligible for payment.</p></h3>
+
+    <div style="padding: 1em; margin: 1em;">
+        <h4>Do you have any general comments or feedback on the study?<br>Is there anything you wish Chip would've done to help you understand the game strategies better?</h4>
+        {{ form.opt_text(cols="70", rows="4") }} {% for error in form.opt_text.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <div style="padding: 1em; margin: 1em;">
+        <h4>Please enter your age</h4>
+        {{ form.age(cols="2", rows="1", required='required') }} {% for error in form.age.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <div style="padding: 1em; margin: 1em;">
+        <h4>Please select the gender that you identify best with.</h4>
+        {% for subfield in form.gender %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.gender.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+    <div style="padding: 1em; margin: 1em;">
+        <h4>Please select the ethnicity you identify best with.</h4>
+        {% for subfield in form.ethnicity %}
+        <div class="form-check">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.ethnicity.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <div style="padding: 1em; margin: 1em;">
+        <h4>Please select the highest level of schooling you have completed or the highest degree you have received.</h4>
+        {% for subfield in form.education %}
+        <div class="form-check">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.education.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+    {{ form.hidden_tag() }} {{ form.submit_final(class="btn btn-primary btn-lg w-100") }}
+</form>
+
+
+{% endblock %}

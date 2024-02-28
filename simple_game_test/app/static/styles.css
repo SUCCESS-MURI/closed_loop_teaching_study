@@ -1,0 +1,336 @@
+.bin>div {
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.gu-mirror {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.bin {
+    padding: 1em;
+    margin: 0em;
+    min-height: 100%;
+}
+
+.staging {
+    padding: 0.5em;
+    margin: 1em;
+    min-height: 5em;
+    background-color: lightgray;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+}
+
+.staging.deactivated {
+  opacity: 0.5;
+}
+
+.staging.deactivated button {
+  opacity: 0.5;
+}
+
+.rule-bin {
+    padding: 1em;
+    margin-top: 1em;
+    /* margin: 0em; */
+    margin-left: 0em;
+    min-height: 16.667%;
+    background-color: lightblue;
+}
+
+.log-bin {
+    padding: 1em;
+    margin-top: 1em;
+    /* margin: 0em; */
+    margin-left: 0em;
+    min-height: 10%;
+    background-color: lightgreen;
+}
+
+.fb-bin {
+    padding: 1em;
+    margin-top: 1em;
+    /* margin: 0em; */
+    margin-left: 0em;
+    min-height: 10%;
+    background-color: #ffe599ff;
+}
+
+.fb-selector {
+    padding: 1em;
+    margin-top: 1em;
+    /* margin: 0em; */
+    margin-left: 0em;
+    min-height: 10%;
+    background-color: #ffe599ff;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.fb-rating {
+    padding: 1em;
+    margin-top: 1em;
+    /* margin: 0em; */
+    margin-left: 0em;
+    min-height: 10%;
+    background-color: #b6d7a8ff;
+    justify-content: center; /* Center the radio buttons horizontally */
+}
+
+.fb-rating-checkbox {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  grid-column-gap: 10px;
+  grid-row-gap: 5px;
+  justify-items: center;
+  align-items: center;
+}
+
+.confidence-rating-checkbox {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  grid-column-gap: 10px;
+  grid-row-gap: 5px;
+  justify-items: center;
+  align-items: center;
+}
+
+.fb-rating-submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 1em auto;
+  max-width: 400px; /* adjust the max-width as needed */
+}
+
+.fb-rating-checkbox label {
+  margin: 0 10px;
+}
+
+.terminate-learning {
+    padding: 1em;
+    margin-top: 1em;
+    /* margin: 0em; */
+    margin-left: 0em;
+    min-height: 10%;
+    background-color: #b6d7a8ff;
+    justify-content: center; /* Center the radio buttons horizontally */
+}
+
+.terminate-button {
+/*  position: absolute;
+/*  top: 50%; 
+  bottom: 20;
+  left: 50%;
+  display: block;
+  width: 450px;
+*//*  transform: translate(-50%, -50%);
+  transform: translateX(-50%);*/
+}
+
+input[type="radio"]:checked {
+  border-color: #0077cc;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+.pop-out-div {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pop-out-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 60px;
+}
+
+.pop-out-survey {
+/*  position: absolute;
+  top: 50%;
+  left: 50%;*/
+/*  transform: translate(-50%, -50%);
+*/  background-color: #fff;
+/*  padding: 60px;
+*/}
+
+.pop-out-unsuccessful {
+/*  position: absolute;
+*//*  top: 50%;
+*//*  left: 50%;
+*//*  transform: translate(-50%, -50%);
+*/  background-color: #fff;
+/*  padding: 60px;
+*/}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.robot-bin {
+    padding: 1em;
+/*    margin-top: 1em;
+*/    /* margin: 0em; */
+    margin-left: 0em;
+    min-height: 33.333%;
+}
+
+.card-bin {
+    padding: 1em;
+    margin: 1em;
+    background-color: lightslategray;
+    min-height: 15em;
+}
+
+.card-bin-highlighted {
+    padding: 1em;
+    margin: 1em;
+    background-color: lightgrey;
+    min-height: 15em;
+}
+
+.left-bin {
+    float: left;
+    padding: 0;
+    margin: 0;
+}
+
+.right-bin {
+    float: right;
+    padding: 0;
+    margin: 0;
+}
+
+.obj {
+    padding: 0em;
+    margin: 0em;
+    width: 85%;
+}
+
+.current-card {
+    border: 0.2rem solid black;
+}
+
+.staging>.current-card {
+    width: 50%;
+}
+
+.styled-card {
+    border: 0.2rem solid black;
+    margin-bottom: 0.2em;
+    width: 100%;
+    border-radius: 0.25rem;
+}
+.staged-card:hover {
+    border: 0.5rem;
+}
+
+.btn-card {
+    appearance: none;
+    background-color: inherit;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.btn-red {
+    color: #343a40;
+    background-color: lightcoral;
+    border-color: lightcoral;
+}
+.btn-red:hover {
+    color: white;
+    background-color: red;
+    border-color: red;
+}
+
+#bin0>.current-card {
+    width: 45%;
+}
+
+#bin1>.current-card {
+    width: 45%;
+}
+
+.prev-card>img {
+    opacity: 0.6;
+}
+
+.robot-video {
+    width: 100%;
+    height: auto;
+}
+
+#next-demo {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#bin0 {
+    background-color: red;
+}
+
+#bin1 {
+    background-color: orange;
+}
+
+.training-text {
+    font-size: 1.25rem;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    height: 100px;
+    width: 100px;
+    outline: black;
+    background-size: 100%, 100%;
+    border-radius: 50%;
+    border: 1px solid black;
+    background-image: none;
+}
+
+.carousel-control-next-icon:after {
+    content: '>';
+    font-size: 55px;
+    color: red;
+}
+
+.carousel-control-prev-icon:after {
+    content: '<';
+    font-size: 55px;
+    color: red;
+}

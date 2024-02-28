@@ -1,0 +1,514 @@
+{% extends "base.html" %} 
+{% block content %}
+
+<head>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+  <script type=text/javascript> 
+
+    var enable_play = false; 
+    var terminate_clicked = false;
+    var at_least_one_card = false;
+    var trial_type = "in_person_final";
+    var fb_type = '{{feedback_condition}}'
+    var curr_fb_type = '{{feedback_condition}}';
+    var selected_fb_type = "invalid";
+    var tutorial_mode = '{{tutorial_mode}}'
+    var n_failed_terminations = 0;
+    var termination_confidence = 0;
+    var termination_confidences = [];
+    var feedback_confidence = 0;
+    var feedback_confidences = [];
+    var feedback_strings = [];
+    var card_select_times = [];
+    var card_select_start_time = Date.now();
+    var terminate_select_timestamp = 0;
+    var terminate_select_time_ms = 0;
+    var termination_record = [];
+    var attempted_terminate = 0;
+    var bonus_string = "";
+    var card_selected_list = []
+    var has_learned = 0;
+
+    function onLoad() {
+      card_select_start_time = Date.now();
+      enable_play = true;
+    }
+    function completeTrial() {
+      // Add final termination and remove the first element from the record (impossible to terminate before cards are played)
+      termination_record.push(1);
+      termination_record.shift();
+
+      var userAgent = navigator.userAgent;
+      var browserName;
+
+      if(userAgent.match(/chrome|chromium|crios/i)){
+             browserName = "chrome";
+      }else if(userAgent.match(/firefox|fxios/i)){
+             browserName = "firefox";
+      } else {
+             browserName="Ineligible";
+      }
+
+      console.log(browserName)
+
+
+      $.getJSON('/trial_completed',
+        {'n_failed_terminations': n_failed_terminations,
+        'termination_confidences': JSON.stringify(termination_confidences),
+        'feedback_confidences': JSON.stringify(feedback_confidences),
+        'feedback_strings': JSON.stringify(feedback_strings),
+        'card_select_times': JSON.stringify(card_select_times),
+        'termination_record': JSON.stringify(termination_record),
+        'bonus_value': bonus_string,
+        'browser': browserName
+        },
+        function callback(data) {
+          console.log(data)
+          window.location.replace(data['url']);
+      });
+    }
+    function onFbSelectChange() {
+      console.log("fb changing")
+      selected_fb_type = $("#fb-type").find(":selected").val();
+      if (selected_fb_type == "invalid") {
+        return;
+      }
+      curr_fb_type = selected_fb_type;
+      if (fb_type == "any") {
+        $.getJSON('/set_fb_type',
+        {fb_type: $("#fb-type").find(":selected").val()},
+        function callback(data) {});
+      } else {
+        console.log("type already set.")
+      }
+    }
+
+    function enableSubmitButton(button_value) {
+        document.getElementById("submit-btn").disabled = false;
+        feedback_confidence = button_value;
+    }
+
+    function enableGameEndButton(button_value) {
+      document.getElementById("game-end-btn").disabled = false;
+      termination_confidence = button_value;
+    }
+
+    $(function() { 
+
+      const staging = document.querySelector('.staging');
+      const cardbuttons = staging.querySelectorAll('btn-card');
+      const popOutDiv = document.querySelector('.pop-out-div');
+      const closeButton = document.querySelector('.close-button');
+
+      // Try to stop users from refreshing the page?
+      window.addEventListener('beforeunload', (event) => {
+        // // Cancel the event as stated by the standard.
+        // event.preventDefault();
+        // // Chrome requires returnValue to be set.
+        // event.returnValue = '';
+        console.log("Attempted refresh?")
+      });
+
+      if (fb_type != "any") {
+        $.getJSON('/set_fb_type',
+          {fb_type: fb_type},
+          function callback(data) {});
+      }
+
+      closeButton.addEventListener('click', function() {
+        if (has_learned != 1) {
+          popOutDiv.style.display = 'none';
+          $(".pop-out-survey").removeClass("hidden");
+          $(".pop-out-successful").addClass("hidden");
+          $(".pop-out-unsuccessful").addClass("hidden");
+          terminate_select_time_ms += (Date.now() - terminate_select_timestamp);
+        }
+      });
+
+      $(".btn-card").click(function (event) {
+        if (enable_play && !card_selected_list.includes($(this).prop("id"))) {
+          $.ajaxSetup({
+              async: false
+          });
+          // TODO these metrics become inaccurate if a user has clicked a card spot that has already been played
+          card_select_times.push(Date.now() - card_select_start_time - terminate_select_time_ms);
+          card_selected_list.push($(this).prop("id"))
+          console.log(card_select_times);
+          terminate_select_time_ms = 0;
+          var card_placed = false;
+          termination_record.push(attempted_terminate);
+          attempted_terminate = 0;
+          document.getElementById("terminate_learning_btn").disabled = false;
+          $.getJSON('/place_card', 
+          {card_id: $(this).prop("id")},
+          function callback(data) {
+            $('#log-str').html(data['outcome_str']);
+            // $('#fb-str').html(data['fb_str'])
+            $(`#card-${data["card_id"]}`).css("opacity", "0.0");
+            $(`#card-${data["card_id"]}-img`).css("opacity", "0.0");
+
+            var learned = data['status']
+            console.log(learned)
+            console.log(tutorial_mode)
+            if ((learned == 1) && (tutorial_mode == 'True')) {
+              window.location.replace('/training/7');
+            } 
+
+            // if (document.getElementById("bin-1").classList.contains("card-bin-highlighted")) {
+            //   console.log("yeah, it's highlighted")
+            //   $('#bin-1').toggleClass("card-bin card-bin-highlighted")
+            // }
+            // if (document.getElementById("bin-2").classList.contains("card-bin-highlighted")) {
+            //   $('#bin-2').toggleClass("card-bin card-bin-highlighted")
+            // }
+            // if (document.getElementById("bin-2").classList.contains("card-bin-highlighted")) {
+            //   $('#bin-3').toggleClass("card-bin card-bin-highlighted")
+            // }
+            //             if (document.getElementById("bin-2").contains("card-bin-highlighted")) {
+            //   console.log("2 HAS")
+            // }
+            //             if (document.getElementById("bin-3").contains("card-bin-highlighted")) {
+            //   console.log("3 HAS")
+            // }
+            // Not sure why this suddenly is different between conditions
+            // if (fb_type != "no_feedback") {
+            //   $(`#bin-${data["bin"]}`).toggleClass("card-bin card-bin-highlighted")
+            // }
+
+            // TODO prevent from clicking this card again? removeClass() didn't seem to help
+            var card_id = data['card_id']
+            console.log(card_id);
+            const element = '<img class="img-fluid styled-card col-sm-4" src="../static/cards/' + card_id + '.png">';
+            document.querySelector(`#bin${data["bin"]}-list`).innerHTML += element;
+          });
+          $.ajaxSetup({
+              async: true
+          });
+
+          // TODO address race condition
+          if (fb_type == "any") {
+            $(".fb-selector").removeClass("hidden")
+            $(".fb-bin").addClass("hidden")
+          }
+          else {
+            $.getJSON('/get_feedback', 
+              function callback(data) {
+                $('#fb-str').html(data['fb_str'])
+            });
+            if (fb_type != "no_feedback") {
+              $(".fb-bin").removeClass("hidden");
+              $(".fb-rating").removeClass("hidden");
+            } else if (tutorial_mode != "True") {
+              $(".terminate-learning").removeClass("hidden");
+            }
+          }
+          const fb_radiobuttons = document.querySelector('.fb-rating').querySelectorAll('input[type="radio"]');
+          fb_radiobuttons.forEach(function(radioButton) {
+            radioButton.checked = false;
+          });
+
+          if (fb_type != "no_feedback") {
+            staging.classList.add('deactivated'); // Add the 'deactivated' class
+            $(".terminate-learning").addClass("hidden");
+            enable_play = false;
+          }
+          if (fb_type == "no_feedback") {
+            card_select_start_time = Date.now();
+            console.log(card_select_start_time)
+          }
+          return false; 
+        }
+      }); 
+
+      $(".btn-card").hover(function (event) {
+        if (enable_play && !card_selected_list.includes($(this).prop("id"))) {
+          var bin;
+          console.log($(this).prop("id"))
+          $.getJSON('/hover_card',
+          {card_id: $(this).prop("id")},
+          function callback(data) {
+            var bin = data['bin']
+            $("#bin-" + bin).addClass("card-bin-highlighted");
+            // $('#bin-' + bin).toggleClass("card-bin card-bin-highlighted")
+          });
+          }
+
+        }, function() {
+          $.getJSON('/hover_card',
+          {card_id: $(this).prop("id")},
+          function callback(data) {
+            var bin = data['bin']
+            $("#bin-" + bin).removeClass("card-bin-highlighted");
+            // $('#bin-' + bin).toggleClass("card-bin card-bin-highlighted")
+          });
+            // $("#bin-1").removeClass("card-bin-highlighted");
+            // $("#bin-2").removeClass("card-bin-highlighted");
+            // $("#bin-3").removeClass("card-bin-highlighted");
+            // $("#bin-1").addClass("card-bin");
+            // $("#bin-2").addClass("card-bin");
+            // $("#bin-3").addClass("card-bin");
+            // return false;
+
+          });
+
+      // staging.addEventListener("mouseout", function() {
+      //   console.log("hereee")
+      //   $("#bin-1").removeClass("card-bin-highlighted");
+      //   $("#bin-2").removeClass("card-bin-highlighted");
+      //   $("#bin-3").removeClass("card-bin-highlighted");      
+      // });
+
+
+      $("#terminate_learning_btn").click(function (event) {
+        // TODO: might want to factor this into how we compute card select times
+        terminate_select_timestamp = Date.now();
+        $.getJSON('/terminate_learning', 
+        {},
+        function callback(data) {
+          console.log(data);
+          $('#log-str').html(data['dialog_str']);
+          // const element = '<img src="../static/temp.png">';
+          // document.querySelector(`#semantic-distribution`).innerHTML = element;
+          // const element = '<img src="../static/semantic_distribution.png">';
+          // document.querySelector(`#semantic-distribution`).innerHTML = element;
+          var d = new Date();
+          // $('#semantic-distribution-img').removeAttr('src').attr('src', '../static/semantic_distribution.png?date=' + d.getTime());
+
+          // const popOutDiv = document.querySelector('.pop-out-div');
+          // const closeButton = document.querySelector('.close-button');
+          // closeButton.addEventListener('click', function() {
+          //   console.log("I'm clicking!!")
+          //   popOutDiv.style.display = 'none';
+          // });
+          popOutDiv.style.display = 'block';
+        }); 
+      terminate_clicked = true;
+      document.getElementById("terminate_learning_btn").disabled = true;
+      return false; 
+      }); 
+
+      $("#submit-btn").click(function(event) {
+        // $(".fb-bin").addClass("hidden");
+        $(".fb-rating").addClass("hidden");
+        $(".terminate-learning").removeClass("hidden");
+        staging.classList.remove('deactivated'); // Add the 'deactivated' class
+        enable_play = true;
+        feedback_confidences.push(parseInt(feedback_confidence));
+        feedback_strings.push(curr_fb_type + ": " + document.getElementById("fb-str").textContent);
+        console.log(feedback_strings);
+        document.getElementById("submit-btn").disabled = true;
+        card_select_start_time = Date.now();
+        console.log(card_select_start_time);
+      });
+
+      $("#select-fb-btn").click(function() {
+        if (selected_fb_type == "invalid") {
+          return;
+        }
+        $.getJSON('/get_feedback', 
+          function callback(data) {
+            $('#fb-str').html(data['fb_str'])
+        });
+        // $(".fb-bin").addClass("hidden");
+        $(".fb-selector").addClass("hidden")
+        $(".fb-bin").removeClass("hidden")
+        $(".fb-rating").removeClass("hidden");
+        selected_fb_type = "invalid";
+        $("#fb-type").val("invalid");
+      });
+
+      $("#game-end-btn").click(function(event) {
+        // const popOutContent = document.querySelector('.pop-out-content');
+        // var has_learned;
+        // popOutDiv.style.display = 'none';
+        $.getJSON('/check_termination_condition', 
+          function callback(data) {
+            has_learned = data['has_learned']
+            if (data['bonus'] != "$0.00") {
+              bonus_string = "You have earned a bonus of <b> " + data['bonus'] + "</b> this round."
+            } else {
+              bonus_string = "You did not earn a bonus payment this round."
+            }
+            termination_confidences.push(parseInt(termination_confidence));
+            attempted_terminate = 1;
+            if (has_learned == 1) {
+              $(".pop-out-survey").addClass("hidden");
+              var success_paragraph = document.getElementById("successful-message");
+              success_paragraph.innerHTML += " " + bonus_string;
+              $(".pop-out-successful").removeClass("hidden");
+            } else {
+              $(".pop-out-survey").addClass("hidden");
+              $(".pop-out-unsuccessful").removeClass("hidden");
+              n_failed_terminations += 1;
+              // popOutContent.innerHTML = '<button class=\"close-button\">&times;</button>The robot has not yet identified which rule you are teaching. Please keep playing the game.';
+              // const closeButton = document.querySelector('.close-button');
+              // closeButton.addEventListener('click', function() {
+              //   popOutDiv.style.display = 'none';
+              //   popOutContent.innerHTML = 
+              // });
+              // popOutContent.insertAdjacentHTML("beforeend", html);
+              // popOutContent.textContent = "The robot has not yet identified which rule you are teaching. Can you please give it more cards?";
+            }
+        });
+
+        const termination_radiobuttons = document.querySelector('.pop-out-content').querySelectorAll('input[type="radio"]');
+        termination_radiobuttons.forEach(function(radioButton) {
+            radioButton.checked = false;
+          });
+        document.getElementById("game-end-btn").disabled = true;
+      });
+    }); 
+
+    // $(function() { 
+
+    // }); 
+
+    // $(function() { 
+
+    // });
+
+  </script>
+
+</head>
+<body onload="onLoad()">
+
+<h1>{{ title }} {{ round_num }}</h1>
+
+<div class="row">
+  <!-- Card staging area -->
+  <div class="col-sm-7">
+    <div id="staging" class="staging row">
+      {% for row_id in range(9) %}
+        <div class="row">
+          {% for card_id in range(9) %}
+          <div class="col">
+            <button type="button" class="btn-card" id="card-{{row_id*9 + card_id}}">
+            <!-- onclick="window.location.href='{{ url_for( 'place_card') }}';" -->
+              <img class="img-fluid styled-card staged-card" src="../static/cards/{{row_id*9 + card_id}}.png" id="card-{{row_id*9 + card_id}}-img">
+            </button>
+          </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+    <div id="bins" class="row">
+      <div id="bin-1" class="col card-bin">
+        Bin 1
+        <div id="bin1-list" class="row"></div>
+      </div>
+      <div id="bin-2" class="col card-bin">
+        Bin 2
+        <div id="bin2-list" class="row"></div>
+      </div>
+      <div id="bin-3" class="col card-bin">
+        Bin 3
+        <div id="bin3-list" class="row"></div>
+      </div>
+    </div>
+    <div id="semantic-distribution" class="row">
+      <img id="semantic-distribution-img">
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="row robot-bin">
+      <video id="robot-video" class="robot-video z-depth-1" autoplay loop muted>
+        <source id="robot-video-source" src="../static/robot/{{vid_name}}.mp4" type="video/mp4" />
+      </video>    
+    </div>
+    <div class="row rule-bin">
+      <b>Please teach the following rule to the robot above:</b><br>
+      <h6 class="col-sm-12" style="white-space: pre-line" id="rule-str">
+        {{rule_str}}
+      </h6>
+    </div>
+<!--     <div class="row log-bin">
+      <h6 class="col-sm-12" style="white-space: pre-line" id="log-str"></h6>
+    </div> -->
+    <div class="row fb-selector hidden" style="position:relative">
+      <b>The robot would like to give you feedback. What format would you prefer?</b><br><br>
+      <div class="row" style="white-space: pre-line; position:absolute; top: 100%;left: 50%;transform: translate(-50%, -200%);">
+      <select id="fb-type" onchange="onFbSelectChange()" autocomplete="off">
+        <!-- <option value="no_feedback">No Feedback</option> -->
+        <option value="invalid">Please Select</option>
+        <option value="preference">Preference</option>
+        <option value="credit_assignment">Credit Assignment</option>
+        <option value="showing">Showing</option>
+        <!-- <option value="binary_negative">Binary Negative Feedback</option>
+        <option value="binary_positive">Binary Positive Feedback</option> -->
+        <option value="binary_combined">Binary Feedback</option>
+      </select>
+        <button id="select-fb-btn">Submit</button>
+      </div>
+    </div>
+    <div class="row fb-bin hidden">
+      <b>The robot has the following feedback for you:</b><br><br>
+      <h6 class="col-sm-12" style="white-space: pre-line" id="fb-str"></h6>
+    </div>
+
+    <div class="row fb-rating hidden">
+<!--       <b>Please complete the following statement (your response will <i>not</i> be shared with the robot), keeping in mind that this is <i>not</i> a question about whether or not the robot understands the rule.</b> 
+      <br><br> -->
+      This feedback is ____________ helpful in understanding what the robot is learning from the cards I have played.<br><br>
+      <div class="fb-rating-checkbox">
+        <label><input type="radio" name="radioset" value=0 onclick="enableSubmitButton(this.value)"/><span> Not at all</span></label>
+        <label><input type="radio" name="radioset" value=1 onclick="enableSubmitButton(this.value)"/><span> A little</span></label>
+        <label><input type="radio" name="radioset" value=2 onclick="enableSubmitButton(this.value)"/><span> Somewhat</span></label>
+        <label><input type="radio" name="radioset" value=3 onclick="enableSubmitButton(this.value)"/><span> Very</span></label>
+        <label><input type="radio" name="radioset" value=4 onclick="enableSubmitButton(this.value)"/><span> Extremely</span></label>
+      </div><br><br>
+      <div class="fb-rating-submit">
+        <button id="submit-btn" disabled>Submit</button>
+      </div>
+    </div>
+
+<!-- class="btn btn-red btn-lg w-100 -->
+    <div class="row terminate-learning hidden">
+      <p>When you think the robot has learned the rule, press the button below. Otherwise, place more cards!</p>
+      <button class="terminate-button" type="button" id="terminate_learning_btn">Terminate learning</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop-out-div">
+  <div class="pop-out-content">
+    <button class="close-button">&times;</button>
+
+    <!-- Your pop-out content here -->
+    <div class="pop-out-survey">
+      <p>You are about to terminate learning, because you believe that the robot has learned the rule correctly! <br><br>
+
+        <i>If you clicked ‘terminate learning’ by accident</i>, please press the ‘X’ in the top-left corner . This will allow you to resume gameplay. <br><br>
+
+        Otherwise, <b>how confident are you that the robot has correctly learned the rule?</b><br>
+
+        <div class="confidence-rating-checkbox">
+            <input type="radio" name="radioset" id="radio0" value="0" onclick="enableGameEndButton(this.value)"/>
+            <input type="radio" name="radioset" id="radio1" value="1" onclick="enableGameEndButton(this.value)"/>
+            <input type="radio" name="radioset" id="radio2" value="2" onclick="enableGameEndButton(this.value)"/>
+            <input type="radio" name="radioset" id="radio3" value="3" onclick="enableGameEndButton(this.value)"/>
+            <input type="radio" name="radioset" id="radio4" value="4" onclick="enableGameEndButton(this.value)"/>
+            <label for="radio1">Not at all</label>
+            <label for="radio2">Slightly</label>
+            <label for="radio3">Somewhat</label>
+            <label for="radio4">Very</label>
+            <label for="radio5">Extremely</label>
+        </div>
+        <div class="confidence-rating-submit" style="white-space: pre-line" align="center">
+          <button id="game-end-btn" disabled>Submit and Continue</button>
+        </div>
+      </p>
+    </div>
+    <div class="pop-out-unsuccessful hidden">
+      <p>The robot has not yet identified which rule you are teaching. Please keep playing the game.</p>
+    </div>
+    <div class="pop-out-successful hidden">
+      <p id="successful-message">Thank you for being a great teacher! The robot has correctly identified that the rule is: <br><br> {{rule_str}}<br><br></p>
+      <div align="center"><button id="continue-btn" onclick="completeTrial()">Continue</button></div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+
+{% endblock %}

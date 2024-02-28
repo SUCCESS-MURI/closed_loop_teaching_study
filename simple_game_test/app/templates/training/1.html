@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Robot Sorting Game</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        img {
+            width: 60%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Familiarizing Yourself with the Game</h1>
+    <p>You will be teaching the robot how to <b>sort cards into one of three bins</b> via a game-like interface.</p>
+    <img src="../static/training/1.png" alt="Image" />
+    <br><br>
+    <button onclick="location.href='/training/2'">Next Page</button>
+</body>
+</html>
+
+{% endblock %}

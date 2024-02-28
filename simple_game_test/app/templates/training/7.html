@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+    <style>
+        .container {
+            margin: 0 auto;
+            text-align: center;
+            width: 80%; /* set the width of the container */
+        }
+
+        img {
+            width: 60%;
+            height: auto;
+        }
+
+        p {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Termination + Bonuses</h1>
+        <p>Great job! The robot learned the rule. <br><br>
+
+        In the actual game, <b>you must decide when to terminate learning</b>, using a button like the one shown below. If you terminate learning but the robot has not learned the rule, you will be asked to try again until you get it correct. <b>Please terminate learning when you think the robot has learned the rule.</b> <br><br>
+
+        In each of the games, <b>if you correctly end the game, you will earn a bonus payment</b> of $1.00. If you end the game too early or too late by 1 card, you will earn a bonus of $0.75. If you end the game too early or too late by 2 cards, you will earn a bonus of $0.25. Any more, and you won't earn a bonus for that round. </p>
+        <img src="../static/training/6.png" alt="Image" />
+        <br><br><br>
+        <form action="" method="post">
+            {{ form.hidden_tag() }} {{ form.submit_training(class="btn btn-primary btn-lg w-100") }}
+        </form>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}

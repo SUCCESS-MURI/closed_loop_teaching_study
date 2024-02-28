@@ -1,0 +1,107 @@
+{% extends "base.html" %} {% block content %}
+<h1>Survey - Round {{round+1}}</h1>
+
+<p><b>Instructions: </b>Please answer the following questions about the game you just played. Make sure you are answering about the demonstrations and trials you just completed, not any previous rounds.</p>
+
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <h3>Please rate your experience playing the game.</h3>
+    <div style="padding: 1em; margin: 1em;">
+        <h4>I enjoyed playing this game.</h4>
+        {% for subfield in form.frustration %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.frustration.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+<!--     <div style="padding: 1em; margin: 1em;">
+        <h4>I enjoyed playing this game.</h4>
+        {% for subfield in form.engagement %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.engagement.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <div style="padding: 1em; margin: 1em;">
+        <h4>I thought this game was difficult.</h4>
+        {% for subfield in form.difficulty %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.difficulty.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <div style="padding: 1em; margin: 1em;">
+        <h4>I feel that I learned the game well.</h4>
+        {% for subfield in form.user_learning %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.user_learning.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <h3>Please rate your impression of the robot on these scales</h3>
+
+    <div style="padding: 1em; margin: 1em;">
+        {% for subfield in form.animacy1 %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.animacy1.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <div style="padding: 1em; margin: 1em;">
+        {% for subfield in form.animacy3 %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.animacy3.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <div style="padding: 1em; margin: 1em;">
+        {% for subfield in form.intelligence1 %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.intelligence1.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <div style="padding: 1em; margin: 1em;">
+        {% for subfield in form.animacy2 %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.animacy2.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <div style="padding: 1em; margin: 1em;">
+        {% for subfield in form.intelligence2 %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.intelligence2.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    <h3>(Optional) Please provide us with some comments about your experience playing this round</h3>
+
+    <div style="padding: 1em; margin: 1em;">
+        <h4>How was your experience playing the game? Did you feel you learned the rule? What is your opinion of the robot?</h4>
+        {{ form.opt_text(cols="70", rows="4") }} {% for error in form.user_learning.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div> -->
+
+    {{ form.submit_survey(class="btn btn-primary btn-lg w-100") }}
+</form>
+
+
+{% endblock %}

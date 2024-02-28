@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block content %}
+<h1>Sign In</h1>
+
+<p>If you have already begun a survey, please enter your Prolific ID to continue. You <b>must</b> complete the entire survey in one sitting to be compensated.</p>
+
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.username.label }}<br> {{ form.username(size=32) }}<br> {% for error in form.username.errors %}
+        <span style="color: red;">[{{ error }}]</span> {% endfor %}
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

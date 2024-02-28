@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block content %}
+<h1>Attention Check</h1>
+
+<p><b></b></p>
+
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <h3></b>Please answer the following questions about the game you <i>just</i> played, and not about any previous rounds.</p></h3>
+
+    <div style="padding: 1em; margin: 1em;">
+        <h4>Which of the following rules did you just teach?</h4>
+        <ul>
+          <li><b>Rule #1:</b> {{rule_1}} </li><br>
+          <li><b>Rule #2:</b> {{rule_2}}</li><br>
+          <li><b>Rule #3:</b> {{rule_3}}</li><br>
+          <li><b>Rule #4:</b> {{rule_4}}</li><br>
+        </ul>
+
+        {% for subfield in form.prev_rule %}
+        <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %} {% for error in form.prev_rule.errors %}
+        <span style="color: red;">{{ error }}</span> {% endfor %}
+    </div>
+
+    {{ form.submit_check(class="btn btn-primary btn-lg w-100") }}
+</form>
+
+
+{% endblock %}

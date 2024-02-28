@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block content %}
+<h1>Sign In</h1>
+
+<p>If you have already begun a survey, please enter your Prolific ID and password to continue. You must complete the entire survey to be compensated. If you have not created an account or started the survey, please proceed to the Register Page.</p>
+
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.username.label }}<br> {{ form.username(size=32) }}<br> {% for error in form.username.errors %}
+        <span style="color: red;">[{{ error }}]</span> {% endfor %}
+    </p>
+    <p>
+        {{ form.password.label }}<br> {{ form.password(size=32) }}<br> {% for error in form.password.errors %}
+        <span style="color: red;">[{{ error }}]</span> {% endfor %}
+    </p>
+    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+    <p>{{ form.submit() }}</p>
+</form>
+<p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
+{% endblock %}

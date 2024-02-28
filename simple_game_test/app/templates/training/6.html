@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+    <style>
+        .container {
+            margin: 0 auto;
+            text-align: center;
+            width: 80%; /* set the width of the container */
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        p {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Time to Practice</h1>
+        <p><center>Let's practice the no feedback condition once, so you can familiarize yourself with the interface.</p></center>
+        <br>
+        <button onclick="location.href='/test'">Begin Tutorial Game</button>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}

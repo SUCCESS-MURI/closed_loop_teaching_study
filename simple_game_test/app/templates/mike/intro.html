@@ -1,0 +1,55 @@
+{% extends "base.html" %}{% block content %}
+
+<div id="container-instructions" class="text-center">
+
+	<h2>Introduction</h2>
+
+	<hr />
+
+	<div>
+        <h3>
+            Thank you for agreeing to participate in our study!
+        </h3>
+
+        <br>
+
+        <div>
+
+        <p>This study must be completed on a desktop or laptop on a supported browser (Chrome, Firefox, or Safari).</p>
+
+        <p><u>Please only try refreshing the page as a last resort if the study gets stuck at any point for longer than a minute.</u>
+            Thank you!<br></p>
+
+            <p>Finally, directions for compensation will be presented upon completion.</p>
+
+        <p>Let's begin the study with a brief overview! </p>
+
+            <br>
+        <p>**Note: We recommend maximizing this window and viewing the study in full screen for the best experience! </p>
+    </div>
+</div>
+
+	<hr />
+
+
+    <div class="instructionsnav">
+        <div class="row justify-content-between">
+            <div class="col-xs-3">
+{#            	<button type="button" id="prev" onclick="window.location.href='/'" value="previous" class="btn btn-primary btn-lg continue">#}
+{#                    Previous <span class="glyphicon glyphicon-arrow-left"></span>#}
+{#                    </button>#}
+            </div>
+            <div class="col-xs-3">
+                <button type="button" id="next" onclick="window.location.href='/overview'" value="next" class="btn btn-primary btn-lg continue">
+                    Next <span class="glyphicon glyphicon-arrow-right"></span>
+                    </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+</script>
+
+{% endblock %}

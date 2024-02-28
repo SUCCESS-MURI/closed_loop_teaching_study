@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+    <style>
+        .container {
+            margin: 0 auto;
+            text-align: center;
+            width: 80%; /* set the width of the container */
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        p {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Logistics of Playing</h1>
+        <p> You will have the ability to select a card to play, but <b>the study system (not the robot!) will place it for you automatically</b>. Hovering over a card will illuminate the bin that the card belongs to, as per the rule you were given to teach (this is <b>not</b> the robot's guess of where it goes, just a helpful tool for you). <br><br>
+
+        For example, the one, solid, green, diamond card that is being selected in the image below illuminates Bin 3 even though it is a "One" card because the fact that it is a "Diamond" card takes precedence. </p>
+        <img src="../static/training/4.png" alt="Image" />
+        <br><br><br>
+        <button onclick="location.href='/training/5'">Next Page</button>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}

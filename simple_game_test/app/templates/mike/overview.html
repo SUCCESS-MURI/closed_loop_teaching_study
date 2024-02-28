@@ -1,0 +1,52 @@
+{% extends "base.html" %}{% block content %}
+
+<div id="container-instructions" class="text-center">
+
+	<h2>Overview</h2>
+
+	<hr />
+
+        <h3>Chip, the blue triangle, has learned to play the two games below perfectly!</h3> <br>
+                <img src = 'static/img/augmented_taxi2_3.png' width=auto height="200"/>
+
+        <!--<img src = 'static/img/colored_tiles_3.png' width=auto height="200" hspace="20" vspace="20"/>-->
+        <img src = 'static/img/skateboard2_3.png' width=auto height="200"/> <br>
+
+        <br>
+
+    <!-- cl, pl, open, wtcl -->
+        <p><b>Chip will teach you the best strategy for each game through a series of demonstrations and tests</b>.</p>
+        <p> Following each teaching series, <b>you will show us what you learned by playing new instances of the game yourself using your keyboard</b>.<p>
+
+    <!-- wt -->
+    <!--<p><b>Chip will first teach you the best strategy for each game by highlighting important actions</b>.
+    <p><b>You will then show us what you learned by playing new instances of the game yourself using your keyboard</b>.<p>-->
+
+            <p> Before we dive in, let's head over to a practice game to get familiar with the keyboard controls and how the games work.
+        </p>
+	<hr />
+
+
+    
+    <div class="instructionsnav">
+        <div class="row justify-content-between">
+            <div class="col-xs-3">
+            	<button type="button" id="prev" onclick="window.location.href='/introduction'" value="previous" class="btn btn-primary btn-lg continue">
+                    Previous <span class="glyphicon glyphicon-arrow-left"></span>
+                    </button>
+            </div>
+            <div class="col-xs-3">
+                <button type="button" id="next" 
+                onclick="window.location.href='/sandbox_introduction'"
+                value="next" class="btn btn-primary btn-lg continue">
+                Next <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+</script>
+{% endblock %}

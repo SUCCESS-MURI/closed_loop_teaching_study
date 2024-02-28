@@ -1,0 +1,107 @@
+{% extends "base.html" %} {% block content %}
+<h1>Familiarizing Yourself with the Game</h1>
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="7"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="8"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="9"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="10"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="11"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <h5><p style="color:black;">Let's go over how this study will work. You will be teaching the robot how to sort cards into one of three bins via a game-like interface. Click the arrow on the right to go to the next screen. 
+                    </p></h5>
+                    <img class="d-block w-100" src="../static/training/1.png" scale="80%">
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                        <p style="color:black;"> 
+                            <h5><p style="color:black;">The cards have four different classes of features: number, fill, color, and shape. <br><br> Each of these has three possible values: ("One", "Two", "Three"), ("Hollow", "Striped", "Solid"), ("Red", "Green", "Purple"), and ("Diamond", "Ellipse", "Squiggle") respectively.
+                        </p></h5>
+                    <img class="d-block w-100" src="../static/training/2.png">
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <h5><p style="color:black;"> These properties and values determine which bin the card belongs in based on a rule. This rule will be provided to you in a blue box below the robot. The robot does not know the rule. <br><br>
+                    Rules have a standardized format. There will be a primary rule, for example cards are sorted by number such that: all "Two" cards go into Bin 1, "One" cards go into Bin 2, and "Three" cards go into Bin 3. And, there will be an exception. In this case, "Diamond" cards also go in Bin 1, regardless of their number. 
+                        </p></h5>
+                    <img class="d-block w-100" src="../static/training/3.png">
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <h5><p style="color:black;"></p> You will have the ability to select a card to play, but the study system will place it for you automatically. Hovering over a card will illuminate the bin that the card belongs to, as per the rule you were given to teach. For example, the one, solid, green, diamond card that is being selected in the image below illuminates Bin 3 even though it is a "One" card because the fact that it is a "Diamond" card takes precedence. 
+
+                    <br><br> Please note that it is <i>not</i> the robot playing this card, but merely the study interface. The robot is only observing which cards you, the teacher, are choosing to play and where they are being placed. 
+                    </h5>
+                    <img class="d-block w-100" src="../static/training/4.png">
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <h5> <p style="color:black;">Let's go over the format of the study. You will be teaching the robot in two separate games, with two separate rules. In one of these games, you will not receive any feedback from the robot at all and in the other, you will receive feedback from the robot after every card you play. <br><br>
+
+                    In the game with feedback, you will be asked to evaluate the feedback you are getting for how helpful it is to you in understanding the robot's learning process and influencing your teaching. Please do not evaluate the feedback based on whether or not you think the robot is learning the rule correctly. <br><br>
+
+                    Between each game, you will complete a short survey about your experience. After you complete both games, we will ask for some final information. Then, you will receive a random code to enter into Prolific so that you can be compensated for completing this study. </p>
+                    </p></h5>
+                    <img class="d-block w-100" src="../static/training/5.png">
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <h5><p style="color:black;">Let's practice the no feedback condition once, so you can familiarize yourself with the interface.</p></h5>
+<!--                     <img class="d-block w-100" src="../static/training/6.png">
+ -->                 
+                     <center><div style="padding: 1em; margin: 1em;">
+                        <button id="sign_consent" type="button" class="btn btn-primary" a href="/test">Practice</button>
+                    </div></center>   
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+                <div class="carousel-item" id="game complete">
+                    <h5><p style="color:black;">Great job! The robot learned the rule. <br><br>
+
+                     <b>In the actual game, there is one significant difference: you get to decide when to terminate learning, as per the image below</b>. If you terminate learning but the robot has not learned the rule, you will be asked to try again until you get it correct.<br><br>
+
+                     <b>Please terminate learning when you think the robot has learned the rule.</b> In each of the two games, if you correctly end the game, you will earn a <b>bonus payment</b> of $1.00. If you underestimate or overestimate by 1 card, you will earn a bonus of $0.75. If you underestimate or overestimate by 2 cards, you will earn a bonus of $0.25. Any more, and you won't earn a bonus for that round. </p></h5>
+                    <img class="d-block w-100" src="../static/training/6.png">
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                        <form action="" method="post">
+                            {{ form.hidden_tag() }} {{ form.submit_training(class="btn btn-primary btn-lg w-100") }}
+                        </form>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    <div class="col-1"></div>
+</div>
+
+<script src="../static/training_script.js"></script>
+
+<hr/> {% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %} {% block content %}
+<h1>Trials - Round {{round+1}}</h1>
+
+<p><b>Instructions: </b>Now it's your turn! Drag the card into the bin you think it belongs in. When you are ready to check your answer, click the Submit Choice button.</p>
+
+<p>The robot will give you feedback on your answer, and then will take you to the next card. Note that it may take a few seconds for the robot to process your answer and to generate the next card.</p>
+
+<div class="progress" style="height: 50px">
+    <div class="progress-bar" role="progressbar" style="width: {{ num_completed_trials/num_trials*100 }}%;" aria-valuenow="{{num_completed_trials}}" aria-valuemin="0" aria-valuemax="{{num_trials}}">
+        {{num_completed_trials}} out of {{num_trials}}</div>
+</div>
+
+<div class="row">
+    <div id="staging" class="staging col-2">
+        <div class="card obj current-card">
+            <img class="card-img-top" src="../static/cards/{{card}}.png">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-3">
+        <div id="bin0" class="bin col">
+            <div class="left-bin col-6">
+                {% for card_id in range(previous_cards[0]|length) %} {% if card_id % 2 == 1 %}
+                <div class="card obj prev-card">
+                    <img class="card-img-top" src="../static/cards/{{previous_cards[0][card_id]}}.png">
+                </div>
+                {% endif %} {% endfor %}
+            </div>
+            <div class="right-bin col-6">
+                {% for card_id in range(previous_cards[0]|length) %} {% if card_id % 2 == 0 %}
+                <div class="card obj prev-card">
+                    <img class="card-img-top" src="../static/cards/{{previous_cards[0][card_id]}}.png">
+                </div>
+                {% endif %} {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="text-center">
+            <p>This video has no sound</p>
+        </div>
+        <video id="robot-video" class="robot-video z-depth-1" autoplay loop muted>
+            <source id="robot-video-source" src="../static/robot/{{vid_name}}.mp4" type="video/mp4" />
+        </video>
+    </div>
+    <div class="col-3">
+        <div id="bin1" class="bin col">
+            <div class="left-bin col-6">
+                {% for card_id in range(previous_cards[1]|length) %} {% if card_id % 2 == 1 %}
+                <div class="card obj prev-card">
+                    <img class="card-img-top" src="../static/cards/{{previous_cards[1][card_id]}}.png">
+                </div>
+                {% endif %} {% endfor %}
+            </div>
+            <div class="right-bin col-6">
+                {% for card_id in range(previous_cards[1]|length) %} {% if card_id % 2 == 0 %}
+                <div class="card obj prev-card">
+                    <img class="card-img-top" src="../static/cards/{{previous_cards[1][card_id]}}.png">
+                </div>
+                {% endif %} {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div id="next-demo" class="col-5">
+        <button type="button" class="btn btn-dark btn-lg w-100" id="submit_choice_btn" onclick="showFeedback()">Submit Choice</button>
+        <span id="current-chosen-bin" class="invisible">staging</span>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <!-- {% for error in form.chosen_bin.errors %}
+            <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endfor %} -->
+            <span class="invisible">{{ form.submit_trial(class="btn btn-dark btn-lg w-100") }}</span>
+            <span class="invisible">{{ form.chosen_bin(cols=32, rows=4) }} </span>
+            <span class="invisible">{{ form.feedback_chosen(cols=32, rows=4) }} </span>
+            <span class="invisible">{{ form.switches(cols=32, rows=1) }} </span>
+        </form>
+        <span class="invisible" id='correct_bin'>{{correct_bin}}</span>
+        <span class="invisible" id='correct_vid_name'>{{correct_vid_name}}</span>
+        <span class="invisible" id='incorrect_vid_name'>{{incorrect_vid_name}}</span>
+    </div>
+</div>
+
+<script src="../static/trials_script.js"></script>
+{% endblock %}

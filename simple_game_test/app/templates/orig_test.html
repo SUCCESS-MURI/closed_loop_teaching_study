@@ -1,0 +1,134 @@
+{% extends "base.html" %} {% block content %}
+
+<head>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+  <script type=text/javascript> $(function() { $(".btn-card").click(function (event) {
+    $.getJSON('/place_card', 
+    {card_id: $(this).prop("id")},
+    function callback(data) {
+      console.log(data);
+      $('#log-str').html(data['outcome_str']);
+      $('#fb-str').html(data['fb_str'])
+      $(`#card-${data["card_id"]}`).css("opacity", "0.0");
+      $(`#card-${data["card_id"]}-img`).css("opacity", "0.0");
+      // TODO prevent from clicking this card again? removeClass() didn't seem to help
+      var card_id = data['card_id']
+      console.log(card_id);
+      const element = '<img class="img-fluid styled-card col-sm-4" src="../static/cards/' + card_id + '.png">';
+      document.querySelector(`#bin${data["bin"]}-list`).innerHTML += element;
+    }); 
+    return false; 
+  }); }); </script>
+  <script type=text/javascript> $(function() { $(".btn-card").hover(function (event) {
+    $.getJSON('/hover_card',
+    {card_id: $(this).prop("id")},
+    function callback(data) {
+      var bin = data['bin']
+      $('#bin-' + bin).toggleClass("card-bin card-bin-highlighted")
+    });
+    return false;
+  }); }); </script>
+  <script type=text/javascript> $(function() { $("#terminate_learning_btn").click(function (event) {
+    $.getJSON('/terminate_learning', 
+    {},
+    function callback(data) {
+      console.log(data);
+      $('#log-str').html(data['dialog_str']);
+      // const element = '<img src="../static/temp.png">';
+      // document.querySelector(`#semantic-distribution`).innerHTML = element;
+      // const element = '<img src="../static/semantic_distribution.png">';
+      // document.querySelector(`#semantic-distribution`).innerHTML = element;
+      var d = new Date();
+      $('#semantic-distribution-img').removeAttr('src').attr('src', '../static/semantic_distribution.png?date=' + d.getTime());
+    }); 
+    return false; 
+  }); }); </script>
+  <script type=text/javascript>
+    function onFbSelectChange() {
+      $.getJSON('/set_fb_type',
+      {fb_type: $("#fb-type").find(":selected").val()},
+      function callback(data) {
+
+      });
+    }
+  </script>
+</head>
+<body>
+
+<h1>Simple Game Test (for Development Purposes)</h1>
+
+<div class="row">
+  <!-- Card staging area -->
+  <div class="col-sm-7">
+    <div id="staging" class="staging row">
+      {% for row_id in range(9) %}
+        <div class="row">
+          {% for card_id in range(9) %}
+          <div class="col">
+            <button type="button" class="btn-card" id="card-{{row_id*9 + card_id}}">
+            <!-- onclick="window.location.href='{{ url_for( 'place_card') }}';" -->
+              <img class="img-fluid styled-card staged-card" src="../static/cards/{{row_id*9 + card_id}}.png" id="card-{{row_id*9 + card_id}}-img">
+            </button>
+          </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+    <div id="bins" class="row">
+      <div id="bin-1" class="col card-bin">
+        Bin 1
+        <div id="bin1-list" class="row"></div>
+      </div>
+      <div id="bin-2" class="col card-bin">
+        Bin 2
+        <div id="bin2-list" class="row"></div>
+      </div>
+      <div id="bin-3" class="col card-bin">
+        Bin 3
+        <div id="bin3-list" class="row"></div>
+      </div>
+    </div>
+    <div id="semantic-distribution" class="row">
+      <img id="semantic-distribution-img">
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="row">
+      <select id="fb-type" onchange="onFbSelectChange()" autocomplete="off">
+        <option value="no_feedback">No Feedback</option>
+        <option value="preference">Preference</option>
+        <option value="credit_assignment">Credit Assignment</option>
+        <option value="showing">Showing</option>
+        <option value="binary_negative">Binary Negative Feedback</option>
+        <option value="binary_positive">Binary Positive Feedback</option>
+        <option value="binary_combined">Binary Combined Feedback</option>
+      </select>
+    </div>
+    <div class="row rule-bin">
+      <h4 class="col-sm-12">Rule:</h4>
+      <h6 class="col-sm-12" style="white-space: pre-line" id="rule-str">
+        {{rule_str}}
+      </h6>
+      
+    </div>
+    <div class="row log-bin">
+      <h6 class="col-sm-12" style="white-space: pre-line" id="log-str"></h6>
+    </div>
+    <div class="row fb-bin">
+      <h6 class="col-sm-12" style="white-space: pre-line" id="fb-str"></h6>
+    </div>
+    <div class="row robot-bin">
+      <video id="robot-video" class="robot-video z-depth-1" autoplay loop muted>
+        <source id="robot-video-source" src="../static/robot/{{vid_name}}.mp4" type="video/mp4" />
+      </video>    
+    </div>
+    <div class="row">
+      <button type="button" class="btn btn-red btn-lg w-100" id="terminate_learning_btn">Terminate Learning</button>
+    </div>
+  </div>
+</div>
+
+</body>
+
+
+{% endblock %}

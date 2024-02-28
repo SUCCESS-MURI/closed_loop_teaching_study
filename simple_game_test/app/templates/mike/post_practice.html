@@ -1,0 +1,56 @@
+{% extends "base.html" %}{% block content %}
+<link rel="stylesheet" href="../../static/css/style.css" type="text/css" />
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+
+<div id="container-instructions" class="text-center">
+
+	{{preamble | safe}}
+
+
+    <div class="instructionsnav">
+        <div class="row justify-content-between">
+            <div class="col-xs-3">
+{#            	<button type="button" id="prev" onclick="window.location.href='/sandbox'" value="previous" class="btn btn-primary btn-lg continue">#}
+{#                    Previous <span class="glyphicon glyphicon-arrow-left"></span>#}
+{#                    </button>#}
+            </div>
+            <div class="col-xs-3">
+                <button type="button" id="next" value="next" 
+                onclick=start_study()
+                class="btn btn-primary btn-lg continue">
+                Next <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function start_study() {
+      localStorage.setItem("user input", "{}");
+      localStorage.setItem("movement", "next");
+      localStorage.setItem("survey", "-1");
+      localStorage.setItem("attn1", "-1");
+      localStorage.setItem("attn2", "-1");
+      localStorage.setItem("attn3", "-1");
+      localStorage.setItem("use1", "-1");
+      localStorage.setItem("use2", "-1");
+      localStorage.setItem("use3", "-1");
+
+      let socket = io();
+      socket.emit("next domain", []);
+      socket.on("next domain is", function(data) {
+        console.log("I have received next domain");
+        let url = "";
+        if (data["domain"].length === 2){
+            url = "/".concat(data["domain"], "_intro");
+        }
+        else {
+            url = "final_survey";
+        }
+        window.location.href=url;
+      });
+      
+    };
+  </script>
+  {% endblock %}
