@@ -1,10 +1,8 @@
-# Closed Loop Teaching
+# Closed-loop Teaching Study
 
-## Installation
-- Install VS Code
-- Do the set-up instructions from https://code.visualstudio.com/docs/python/tutorial-flask starting with the Prerequisites and Create Project Environment sections
-- Select Interpretor to the `venv` and `Ctrl + Shift +` ` to open console within the env
-- Install the following packages (if you get an error, try installing the following versions: 
+## Running the study locally
+- Install the following packages, preferably in an isolated environment like conda. If you get an error, try installing the specific version listed: 
+
 ```
 - python 3.9
 - flask 2.0.3
@@ -21,17 +19,27 @@
 - pingouin 0.5.3
 - email-validator 2.0.0.post2
 ```
-- Comment out bottom half of `__init__.py`
+* In `simple_game_test`, run the study with `python -m flask run`
+* The main study code lives in `simple_game_test/app/routes.py`, which you can modify e.g. to change the experimental conditions (called `loop_conditions`).
+* The algorithms for maintaining a running model of the human's beliefs (in a particle filter), determining the next demonstration or test to provide, etc, live in `simple_game_test/app/augmented_taxi/policy_summarization/*`. 
+
+## Data analysis
+
+* Run `analysis/data_analysis.py`
+
+## Recreating the database (app.db)
+
+- Comment out bottom half of `simple_game_test/app/__init__.py` 
 - Create the database using
+
 ```
 flask db init
 flask db migrate 
 flask db upgrade
 ```
-- Uncomment the bottom half of `__init__.py`
-- Run the app with `python -m flask run`
+- Uncomment the bottom half of `simple_game_test/app/__init__.py` before running the study again. 
 
-When making changes to the structure of the database (e.g. adding a new column), purge the previous one with the following commands
+When making changes to the structure of the database (e.g. adding a new column), purge the previous one with the following commands before recreating the database
 ```angular2html
 rm -r app.db
 rm -rf migrations
@@ -62,10 +70,3 @@ SELECT * FROM <table_name>;
 ```
 
 To exit from sqlite, press Ctrl+D
-
-## Useful Links
-- https://stackoverflow.com/questions/56199111/visual-studio-code-cmd-error-cannot-be-loaded-because-running-scripts-is-disabl
-- https://github.com/bevacqua/dragula/
-- Alt + Shift + F is auto-indent
-- Flask Login with Database https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins
-- DB to CSV with https://www.rebasedata.com/convert-sqlite-to-csv-online
