@@ -25,7 +25,7 @@
 
 ## Data analysis
 
-* Run `analysis/data_analysis.py`
+* Run `analysis/data_analysis.py`. The data collected from the user study can found in `analysis/dfs_f23_processed.pickle`.
 
 ## Recreating the database (app.db)
 
