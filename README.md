@@ -1,10 +1,10 @@
 # Improving the Transparency of Agent Decision Making Using Demonstrations
 
-This repository contains code for the methods and user studies described in chapter 6 the following thesis: 
+This repository contains code for the methods and user studies described in chapter 6 the following [thesis](https://symikelee.github.io/papers/ml5_phd_ri_2024.pdf): 
 
 - Michael S. Lee, **Improving the Transparency of Agent Decision Making Using Demonstrations**, Carnegie Mellon University, 2024,
 
-which introduces a closed-loop teaching framework for teaching agent decision making to humans through demonstrations of key decisions, intermittent testing of human understanding, and provision of remedial instruction as necessary.
+which introduces a closed-loop teaching framework for teaching agent decision making to humans through demonstrations of key agent decisions, intermittent testing of human understanding, and provision of remedial instruction as necessary.
 
 The thesis (and code for the methods and user studies of other chapters, e.g. chapters 3 and 4) are available at https://symikelee.github.io/.
 
