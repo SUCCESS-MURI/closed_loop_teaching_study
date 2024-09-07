@@ -26,6 +26,7 @@ Of particular interest are algorithms for maintaining a running model of the hum
 - flask-login 0.6.2
 - flask-sqlalchemy 2.5.1
 - flask-migrate 4.0.0
+- flask-socketio 5.3.4
 - sqlalchemy 1.4.27
 - (the following package versions could be more flexible) 
 - numpy 1.24.3
