@@ -6,7 +6,7 @@ This repository contains code for the methods and user studies described in chap
 
 which introduces a closed-loop teaching framework for teaching agent decision making to humans through demonstrations of key agent decisions, intermittent testing of human understanding, and provision of remedial instruction as necessary.
 
-The thesis (and code for the methods and user studies of other chapters, e.g. chapters 3 and 4) are available at https://symikelee.github.io/.
+The thesis (and code for the methods and user studies of other chapters, e.g. chapters 4 and 5) are available at https://symikelee.github.io/.
 
 # Methods for in situ Demonstration Selection
 
