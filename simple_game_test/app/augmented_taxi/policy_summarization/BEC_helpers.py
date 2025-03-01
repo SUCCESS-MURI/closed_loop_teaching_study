@@ -59,7 +59,7 @@ def compute_distance_between_constraints(c1, c2):
     Summary: Compute the feature-wise distance (i.e. how many of the features do not match their respective counts)
      and total distance (i.e. total feature counts that do not match between the two constraints)
     '''
-    diff = c1 - c2
+    diff = abs(c1 - c2)
     featurewise_distance = np.count_nonzero(diff)
     total_feature_distance = np.sum(diff)
 
@@ -796,14 +796,14 @@ def sample_human_models_pf(particles, n_models):
 
     # d) use the k-center algorithm to sample human models
     if (particles.weights == particles.weights[0]).all():
+        # utilizing systematic resampling on a set of equal weights leads to all of them being sampled anyways, so you can just skip
+        indexes = np.arange(len(particles.weights))
+        particle_positions_latllong = cg.cart2latlong(particles.positions.squeeze())
+    else:
         # utilize systematic resampling to account for the different weights of different particles (e.g. favor
         # higher weighted particles for being accounted for in the k-center selection)
         indexes = np.unique(p_utils.systematic_resample(particles.weights))
         particle_positions_latllong = cg.cart2latlong(particles.positions[indexes].squeeze())
-    else:
-        # utilizing systematic resampling on a set of equal weights leads to all of them being sampled anyways, so you can just skip
-        indexes = np.arange(len(particles.weights))
-        particle_positions_latllong = cg.cart2latlong(particles.positions.squeeze())
 
     pairwise = metrics.pairwise.haversine_distances(particle_positions_latllong, particle_positions_latllong)
     select_idxs = selectKcities(pairwise.shape[0], pairwise, n_models)
